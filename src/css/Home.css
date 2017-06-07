@@ -1,0 +1,12 @@
+
+.home .title, .home .subtitle {
+	font-family: 'Bungee Inline', cursive;	
+}
+
+.home p {
+	margin-bottom: 2em;
+}
+
+.home .button {
+	font-family: 'Ubuntu', sans-serif;
+}
