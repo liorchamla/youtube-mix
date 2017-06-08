@@ -1,5 +1,5 @@
 # React YouTube Mix by Lior Chamla
-Just a "simple" Web app made with React and Firebase, see it at : [http://liorchamla.github.io/youtube-mix]()
+Just a "simple" Web app made with React and Firebase, see it at : [https://liorchamla.github.io/youtube-mix/](https://liorchamla.github.io/youtube-mix/)
 
 ## Packages used 
 * [react-scripts](https://github.com/facebookincubator/create-react-app/tree/master/packages/react-scripts) for the development
