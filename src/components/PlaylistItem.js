@@ -41,6 +41,7 @@ class PlaylistItem extends Component {
 
 	playSong = () => {
 	    if(this.state.playing === false || this.props.playing !== this.props.song){
+	    	document.title = `Now playing : ${this.state.informations.title} - YouTube Mix!`
 	    	this.props.registerPlaying({informations: this.state.informations, index: this.props.index})
 	      	this.setState({playing: this.props.song})
 	      	this.props.player.loadVideoById(this.props.song)
@@ -74,7 +75,7 @@ class PlaylistItem extends Component {
 		this.props.registerAsChild(this.props.index, this.props.song, this)
 	}
 
-	componentWillUnmout(){
+	componentWillUnmount(){
 		this.clearProgressInterval();
 	}
 
