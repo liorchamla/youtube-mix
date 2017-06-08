@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from 'react-dom'
-import { BrowserRouter, Route, Redirect } from 'react-router-dom'
+import { HashRouter, Route, Redirect } from 'react-router-dom'
 import { base, firebase } from './helpers/base'
 import Home from './components/Home'
 import Playlists from './components/Playlists'
@@ -9,7 +9,9 @@ import Navigation from './components/Navigation'
 import PlaylistForm from './components/PlaylistForm'
 import Login from './components/Login'
 import Signup from './components/Signup'
+
 import './index.css'
+
 
 class Main extends React.Component {
 
@@ -62,24 +64,12 @@ class Main extends React.Component {
 
   render(){
     return (
-      <BrowserRouter>
+      <HashRouter>
         <div>
           <Navigation user={this.state.user} isLoggedIn={this.state.user && this.state.user.uid} signOut={this.signOut} />
-          <section className='hero is-info is-bold has-text-centered top'>
-            <div className='hero-body'>
-              <div className='container'>
-                <h1 className='title'>
-                    YouTube Mix !
-                  </h1>
-                <h2 className='subtitle'>
-                    Create your own mix !
-                  </h2>
-              </div>
-            </div>
-          </section>
-          <div>
-            <Route exact path='/' render={() => <Home user={this.state.user} />} />
-            <Route exact path='/playlists' render={() => <Playlists user={this.state.user} />} />
+          <div className="wrapper">
+            <Route exact path={`/`} render={() => <Home user={this.state.user} transparentNavigation={true} /> } />
+            <Route exact path={`/playlists`} render={() => <Playlists user={this.state.user} />} />
             <Route path='/playlists/:playlistId' render={() => <Playlist user={this.state.user} />} />
             <Route exact path='/playlist/create' render={() => {
               if(this.state.user && this.state.user.uid){
@@ -92,7 +82,7 @@ class Main extends React.Component {
             <Route exact path='/signup' render={() => <Signup user={this.state.user} signUpWithEmail={this.signUpWithEmail} setUserState={this.setUserState} />} />
           </div>
         </div>
-      </BrowserRouter>
+      </HashRouter>
     )
   }
 }

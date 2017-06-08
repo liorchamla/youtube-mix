@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import PlaylistForm from './PlaylistForm'
+import Playlist from './Playlist'
 import playlists from '../samples/playlists.js'
 import { base } from '../helpers/base'
+
+import '../css/Playlist.css'
 
 class Playlists extends Component {
 	constructor(props){
@@ -18,6 +20,10 @@ class Playlists extends Component {
 			context: this,
 			state: 'playlists'
 		});
+	}
+
+	componentDidMount(){
+		document.querySelector('#navigation').classList.remove('navbar-transparent');
 	}
 
 	componentWillUnmount(){
@@ -54,26 +60,15 @@ class Playlists extends Component {
 	render(){
 		const items = this.state.playlists && Object.keys(this.state.playlists).map(key => {
 			const item = this.state.playlists[key]
-			return (
-				<div className="column" key={key}>
-					<h1 className="title">{item.title}</h1>
-					<h2 className="subtitle">{(item.songs && item.songs.length) || 0} videos</h2>
-					<p className="content">{item.description && item.description.split(' ').slice(0, 10).concat(['...']).join(' ')}</p>
-					<a onClick={(e) => this.goToPlaylist(e, key)} href={`/playlists/${key}`} className="button"><i className="fa fa-headphones"></i>&nbsp; Listen Now !</a>
-				</div>
-			);
+			return <Playlist user={this.props.user} data={this.state.playlists[key]} key={key} />
 		})
 		return (
-			<section className="is-medium">
-				<div className="container">
-					<div>
-						<div className="columns">
-							{items}		
-						</div>
-						<button className="button" onClick={() => this.loadPlaylists()}>Load test playlists</button>&nbsp;
-					</div>
+			<div className="container page">
+				<div className="row">
+					{items}		
 				</div>
-			</section>
+				<button className="button" onClick={() => this.loadPlaylists()}>Load test playlists</button>&nbsp;
+			</div>
 		)
 	}
 }

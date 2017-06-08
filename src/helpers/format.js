@@ -10,10 +10,22 @@ exports.formatDuration = (durationString) => {
   return minutes + seconds
 }
 
+exports.formatTime = (seconds) => {
+    var sec_num = parseInt(seconds, 10); // don't forget the second param
+    var minutes = Math.floor(sec_num / 60);
+    var seconds = sec_num - (minutes * 60);
+
+    if (minutes < 10) {minutes = "0"+minutes;}
+    if (seconds < 10) {seconds = "0"+seconds;}
+    return minutes+':'+seconds;
+}
+
 exports.getTimeRate = (player) => {
   const timePromise = player.getCurrentTime() || 0
   const durationPromise = player.getDuration() || 0
-  return Promise.all([timePromise, durationPromise]).then(([time, duration]) => (time / duration) * 100)
+  return Promise.all([timePromise, durationPromise]).then(([time, duration]) => {
+  	return {rate: (time / duration) * 100, currentTime: time, duration}
+  }) 
 }
 
 exports.getGravatar = (email, size = 200) => {

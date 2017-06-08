@@ -1,3 +1,30 @@
 * {
 	font-family: Ubuntu, sans-serif;
 }
+
+img.rounded-circle {
+	max-width: 24px;
+}
+
+.header {
+	padding: 10px 10px;
+}
+
+.header h3 {
+	padding:0;
+}
+
+.song-title {
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.playlist .btn.btn-neutral {
+	padding: 0;
+}
+
+
+.playlist-item.hidden {
+	display: none;
+}

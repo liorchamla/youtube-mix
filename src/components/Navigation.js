@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import PlaylistForm from './PlaylistForm'
 import { getGravatar } from '../helpers/format'
 
 
@@ -35,58 +36,65 @@ class Navigation extends Component {
   renderLogin = () => {
     if(!this.props.isLoggedIn) {
       return (
-        <p className='control'>
-          <a className='button' href="/login"  onClick={(e) => this.goToPage(e, '/login')}>
-            <span className='icon'>
-              <i className='fa fa-sign-in' />
-            </span>
-            <span>Login</span>
+        <li className="nav-item">
+          <a href="/login" onClick={(e) => this.goToPage(e, '/login')} className="nav-link">
+            <i className="fa fa-sign-in"></i> &nbsp;Login !
           </a>
-        </p>
+        </li>
       )
     } else {
       return (
-        <p className='control'>
-          <button className='button' onClick={(e) => this.handleLogout(e)}>
-            <figure className="image is-24x24" style={{marginRight: '8px', borderRadius: '50%', overflow: 'hidden'}}>
-              <img src={getGravatar(this.props.user.email)} />
-            </figure>
-            <span>Logout</span>
-          </button>
-        </p>
-
+        <li className="nav-item dropdown">
+            <a className="nav-link dropdown-toggle" href="#!" id="navbarDropdownMenuLink" data-toggle="dropdown">
+                  <img className="img-account" src={getGravatar(this.props.user.email)} />&nbsp; Account
+            </a>
+            <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a className="dropdown-item" href="#!" onClick={(e) => this.handleLogout(e)}>Log out</a>
+            </div>
+        </li>
       )
     }
   }
 
   render () {
-    const createPlaylist = this.props.isLoggedIn ? <a className='nav-item' href='/playlist/create'  onClick={(e) => this.goToPage(e, '/playlist/create')}>Create playlist</a> : ''
+    const createPlaylist = this.props.isLoggedIn ? (
+      <li className="nav-item dropdown playlist-create">
+          <a className="nav-link dropdown-toggle" href="#!" id="navbarDropdownMenuLink" data-toggle="dropdown">
+            Create playlist
+          </a>
+          <div className="dropdown-menu playlist-form" aria-labelledby="navbarDropdownMenuLink">
+            <PlaylistForm user={this.props.user} />
+          </div>
+      </li>)  : ''
     return (
-      <nav className='nav'>
-        <div className='nav-left'>
-          <a className='nav-item' href="/" onClick={(e) => this.goToPage(e, '/')}>
+      <nav id="navigation" className='navbar navbar-toggleable-md bg-primary fixed-top'>
+        <div className="container">
+          <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-bar bar1"></span>
+            <span className="navbar-toggler-bar bar2"></span>
+            <span className="navbar-toggler-bar bar3"></span>
+          </button>
+        
+          <a className='navbar-brand' href="/" onClick={(e) => this.goToPage(e, '/')}>
 			      YouTube Mix!
 			    </a>
-        </div>
+        
 
-        <span className='nav-toggle'>
-          <span />
-          <span />
-          <span />
-        </span>
-
-        <div className='nav-right nav-menu'>
-          <a className='nav-item' href='/'  onClick={(e) => this.goToPage(e, '/')}>
-			      Home
-			    </a>
-          <a className='nav-item' href='/playlists'  onClick={(e) => this.goToPage(e, '/playlists')}>
-			      Browse playlists
-			    </a>
-          {createPlaylist}
-          <div className='nav-item'>
-            <div className='field'>
+          <div className='collapse navbar-collapse justify-content-end'>
+            <ul className="navbar-nav">
+              <li className="nav-item">
+                <a className='nav-link' href='/'  onClick={(e) => this.goToPage(e, '/')}>
+                  Home
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className='nav-link' href='/playlists'  onClick={(e) => this.goToPage(e, '/playlists')}>
+                  Browse playlists
+                </a>
+              </li>
+              {createPlaylist}
               {this.renderLogin()}
-            </div>
+            </ul>
           </div>
         </div>
       </nav>

@@ -13,19 +13,21 @@ class SongForm extends Component {
   render () {
     return (
       <form ref={(form) => this.songForm = form} onSubmit={(e) => this.addSong(e)}>
-        <hr />
-        <div className='field has-addons'>
-          <p className='control is-expanded has-icons-left'>
-            <input className='input' type='text' placeholder='Add a YouTube URL !' required ref={(input) => this.songURL = input} />
-            <span className='icon is-small is-left'>
-              <i className='fa fa-youtube' />
-            </span>
-          </p>
-          <p className='control'>
-            <button type='submit' className='button is-info'>
-				      + Add
+        <hr/>
+        <div className="row">
+          <div className="col-md-8">
+            <div className='input-group form-group-no-border'>
+              <span className="input-group-addon">
+                <i className="fa fa-youtube"></i>
+              </span>
+              <input className='form-control' type='text' placeholder='Add a YouTube URL !' required ref={(input) => this.songURL = input} />
+            </div>
+          </div>
+          <div className="col-md-2">
+            <button type='submit' className='btn btn-info'>
+				      <i className="fa fa-plus"></i>&nbsp; Add
 				    </button>
-          </p>
+          </div>
         </div>
       </form>
     )

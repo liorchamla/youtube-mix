@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
+import background from '../img/header.jpg'
+
 class Login extends Component {
 
 	constructor(props){
@@ -9,6 +11,10 @@ class Login extends Component {
 		this.state = {
 			error: ''
 		}
+	}
+
+	componentDidMount(){
+		 document.querySelector('#navigation').classList.add('navbar-transparent');
 	}
 	
 	handleLogin = (e) => {
@@ -46,43 +52,54 @@ class Login extends Component {
 
 	render(){
 		const errorNotification = this.state.error && (
-			<div className="notification is-danger">
-			  {this.state.error}
-			</div>
+			<div className="alert alert-danger" role="alert">
+                <div className="container">
+                    {this.state.error}
+                </div>
+            </div>
 		)
 		return (
-			<section className="is-medium">
-				<div className="container">
-					<div className="columns">
-						<div className="column is-6 is-offset-3">
-							<h2 className="subtitle">Log in bro !</h2>
-							{errorNotification}
-							<form onSubmit={(e) => this.handleLogin(e)}>
-								<div className="field">
-									<label htmlFor="email" className="label">Email address :</label>
-									<p className="control">
-										<input type="text" required id="email" className="input" placeholder="Email address" ref={(input) => this.email = input} />
-									</p>
-								</div>
-								<div className="field">
-									<label htmlFor="password" className="label">Password :</label>
-									<p className="control">
-										<input type="password" required id="password" className="input" placeholder="Password" ref={(input) => this.password = input} />
-									</p>
-								</div>
-								<div className="field is-grouped">
-									<p className="control">
-										<button type="submit" className="button is-primary"><i className="fa fa-sign-in"></i>&nbsp;Login</button>
-									</p>
-									<p className="control">
-										<button onClick={(e) => this.goToSignup(e)} className="button"><i className="fa fa-plus"></i>&nbsp;Register !</button>
-									</p>
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-			</section>
+			<div className="page-header login-page clear-filter" data-filter-color="orange">
+		        <div className="page-header-image" style={{backgroundImage: `url(${background})`}}></div>
+		        <div className="container">
+		            <div className="col-md-4 content-center">
+		                <div className="card card-login card-plain">
+		                    <form className="form"  onSubmit={(e) => this.handleLogin(e)}>
+		                        <div className="header header-primary text-center">
+		                            <div className="logo-container">
+		                                <i className="fa fa-youtube fa-5x"></i>
+		                            </div>
+		                        </div>
+								{errorNotification}
+		                        <div className="content">
+		                            <div className="input-group form-group-no-border input-lg">
+		                                <span className="input-group-addon">
+		                                    <i className="now-ui-icons users_circle-08"></i>
+		                                </span>
+		                                <input type="text" required id="email" className="form-control" placeholder="Email address" ref={(input) => this.email = input} />
+		                            </div>
+		                            <div className="input-group form-group-no-border input-lg">
+		                                <span className="input-group-addon">
+		                                    <i className="now-ui-icons ui-1_lock-circle-open"></i>
+		                                </span>
+		                                <input type="password" required id="password" className="form-control" placeholder="Password" ref={(input) => this.password = input} />
+		                            </div>
+		                        </div>
+		                        <div className="footer text-center">
+		                            <button type="submit" className="btn btn-primary btn-round btn-lg btn-block">
+		                            	<i className="fa fa-sign-in"></i>&nbsp; Log in !
+		                            </button>
+		                        </div>
+		                        <div className="pull-left">
+		                            <h6>
+		                                <a href="/signup" className="link" onClick={(e) => this.goToSignup(e)}>Create Account</a>
+		                            </h6>
+		                        </div>
+		                    </form>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
 		)
 	}
 }

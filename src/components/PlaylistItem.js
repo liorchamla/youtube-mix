@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getTimeRate, formatDuration } from '../helpers/format';
+import { getTimeRate, formatDuration, formatTime } from '../helpers/format';
 
 class PlaylistItem extends Component {
 	constructor(props){
@@ -40,18 +40,21 @@ class PlaylistItem extends Component {
 
 	playSong = () => {
 	    if(this.state.playing === false || this.props.playing !== this.props.song){
-	    	this.props.registerPlaying(this.state.informations)
+	    	this.props.registerPlaying({informations: this.state.informations, index: this.props.index})
 	      	this.setState({playing: this.props.song})
 	      	this.props.player.loadVideoById(this.props.song)
 	    }
 	    this.props.player.playVideo();
 	    this.setState({paused: false});
-	    this.progressInterval = window.setInterval(this.handleTimeRate, 500);
+	    if(!this.progressInterval){
+		    this.progressInterval = window.setInterval(this.handleTimeRate, 500);
+	    }
 	}
 
 	handleTimeRate = () => {
-		getTimeRate(this.props.player).then(rate => {
-			if(!isNaN(rate)) this.progress.value = rate;
+		getTimeRate(this.props.player).then(data => {
+			if(!isNaN(data.rate)) this.progress.style.width = data.rate + '%';
+			if(!isNaN(data.duration) && !isNaN(data.currentTime)) this.progressTime.innerHTML = `${formatTime(data.currentTime)} / ${formatTime(data.duration)}`
 		})
 	}
 
@@ -66,11 +69,8 @@ class PlaylistItem extends Component {
 		this.progressInterval = null
 	}
 
-	componentDidUpdate(){
-		if(this.props.playing !== this.props.song){
-			this.clearProgressInterval();
-			this.progress.value = 0;
-		}
+	componentDidMount(){
+		this.props.registerAsChild(this.props.index, this.props.song, this)
 	}
 
 	componentWillUnmout(){
@@ -81,32 +81,43 @@ class PlaylistItem extends Component {
 		const key = this.props.id;
 		let button;
 		if(!this.state.paused && this.props.playing === this.props.song) {
-			button = <a className="button" onClick={(e) => this.pause()}>&#10074;&#10074;</a>;
+			button = <button className="btn btn-neutral" onClick={(e) => this.pause()}>
+				<i className="fa fa-pause"></i>
+			</button>;
 		} else {
-			button = <a className="button" onClick={(e) => this.playSong()}>&#9658;</a>;
+			button = <button className="btn btn-neutral" onClick={(e) => this.playSong()}>
+				<i className="fa fa-play"></i>
+			</button>;
 		}
 
+		const progressBarHtml = this.props.playing !== this.props.song ? '' : (
+			<div className="progress-container progress-info">
+			    <span className="progress-badge">Now playing</span>
+			    <div className="progress">
+			        <div className="progress-bar" id={'progress-' + this.props.song} ref={(progress) => this.progress = progress} role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+			            <span className="progress-value" ref={(span) => this.progressTime = span}></span>
+			        </div>
+			    </div>
+			</div>
+		)
+
 		return (
-			<article className="media" key={key}>
-				<figure className="media-left">
-					<p className="image is-64x64">
-						<img src={this.state.informations.thumbnail} alt={this.state.informations.title}/>
-					</p>
-				</figure>
-				<div className="media-content">
-					<p>
-						{this.state.informations.title} 
-					</p>
-					<progress id={'progress-' + this.props.song} ref={(progress) => this.progress = progress} className="progress is-primary" value="0" max="100">0%</progress>
+			<div key={key} className="row">
+				<div className="col-xs-2 col-md-2">
+					<img className="img-responsive img-raised" src={this.state.informations.thumbnail} alt={this.state.informations.title}/>
 				</div>
-				<div className="media-right">
+				<div className="col-xs-9 col-md-8 song-title">
+					{this.state.informations.title && this.state.informations.title} 
+					{progressBarHtml}
+				</div>
+				<div className="col-xs-1 col-md-2">
 					{button}
 					<br />
-					<a className="button" onClick={(e) => this.props.removeSong(this.props.song)}>
+					<button className="btn btn-neutral" onClick={(e) => this.props.removeSong(this.props.song)}>
 						<i className="fa fa-times"></i>
-					</a>
+					</button>
 				</div>
-			</article>
+			</div>
 		)
 	}
 }
