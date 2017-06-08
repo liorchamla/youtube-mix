@@ -67,7 +67,6 @@ class Playlists extends Component {
 				<div className="row">
 					{items}		
 				</div>
-				<button className="button" onClick={() => this.loadPlaylists()}>Load test playlists</button>&nbsp;
 			</div>
 		)
 	}

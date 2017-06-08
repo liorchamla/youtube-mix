@@ -27,7 +27,7 @@ class Home extends Component {
               <i className="fa fa-youtube" style={{marginBottom: '20px', fontSize: '10em'}}></i>
               <h1 className="h1-seo">YouTube Mix!</h1>
               <h3>A React App to create YouTube Playlists !</h3>
-              <a href="/playlists" onClick={(e) => this.goToPlaylists(e)} className="btn btn-lg btn-neutral" style={{fontSize: '2em'}} >
+              <a href="#!" onClick={(e) => this.goToPlaylists(e)} className="btn btn-lg btn-neutral" style={{fontSize: '2em'}} >
                 <i className="fa fa-headphones"></i>&nbsp; Browse playlists
               </a>
           </div>

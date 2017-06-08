@@ -37,7 +37,7 @@ class Navigation extends Component {
     if(!this.props.isLoggedIn) {
       return (
         <li className="nav-item">
-          <a href="/login" onClick={(e) => this.goToPage(e, '/login')} className="nav-link">
+          <a href="#!login" onClick={(e) => this.goToPage(e, '/login')} className="nav-link">
             <i className="fa fa-sign-in"></i> &nbsp;Login !
           </a>
         </li>
@@ -75,7 +75,7 @@ class Navigation extends Component {
             <span className="navbar-toggler-bar bar3"></span>
           </button>
         
-          <a className='navbar-brand' href="/" onClick={(e) => this.goToPage(e, '/')}>
+          <a className='navbar-brand' href="#!" onClick={(e) => this.goToPage(e, '/')}>
 			      YouTube Mix!
 			    </a>
         
@@ -83,12 +83,12 @@ class Navigation extends Component {
           <div className='collapse navbar-collapse justify-content-end'>
             <ul className="navbar-nav">
               <li className="nav-item">
-                <a className='nav-link' href='/'  onClick={(e) => this.goToPage(e, '/')}>
+                <a className='nav-link' href='#!'  onClick={(e) => this.goToPage(e, '/')}>
                   Home
                 </a>
               </li>
               <li className="nav-item">
-                <a className='nav-link' href='/playlists'  onClick={(e) => this.goToPage(e, '/playlists')}>
+                <a className='nav-link' href='#!'  onClick={(e) => this.goToPage(e, '/playlists')}>
                   Browse playlists
                 </a>
               </li>
