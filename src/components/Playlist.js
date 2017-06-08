@@ -44,6 +44,7 @@ class Playlist extends Component {
 				autoplay: 0
 			}
 		});
+
 		player.on('stateChange', this.handleStateChange)
 		this.setState({
 			player,
@@ -58,8 +59,14 @@ class Playlist extends Component {
 	}
 
 	setPlayingInformations = (data) => {
-		const playlist = this.state.playlist;
+		const playlist = this.state.playlist
+		const playing = this.state.playing
 		playlist.informations = data.informations;
+		if(playing){
+			const currentPlaylistItem = this.childrenItems.filter(child => child.songId === playing).shift()
+			currentPlaylistItem.item.clearProgressInterval();			
+		}
+
 		this.setState({playlist, playing: data.informations.id, videoIndex: data.index});
 	}
 
@@ -78,7 +85,7 @@ class Playlist extends Component {
 	      	const index = currentPlaylistItem.index + 1;
 	      	currentPlaylistItem.item.pause();
 	      	const nextPlaylistItem = this.childrenItems.filter(data => data.index === index).shift()
-	      	nextPlaylistItem.item.playSong();
+	      	if(nextPlaylistItem) nextPlaylistItem.item.playSong();
 	        break;
 	      default:
 	        break;
@@ -89,6 +96,10 @@ class Playlist extends Component {
 		this.childrenItems.push({index, songId, item});
 	}
 
+	getChildByVideoId = (id) => {
+		return this.childrenItems.filter(data => data.songId === id).shift()
+	}
+
 	addSong = (id) => {
 		const playlist = this.state.playlist;
 		if(!playlist.songs) playlist.songs = [];
@@ -97,10 +108,16 @@ class Playlist extends Component {
 	}
 
 	removeSong = (id) => {
-		const playlist = this.state.playlist
-		console.log(id, playlist.songs);
+		const currentPlaylistItem = this.getChildByVideoId(id) //this.childrenItems.filter(data => data.songId === this.state.playing).shift()
+		if(currentPlaylistItem && currentPlaylistItem.songId === id){
+			currentPlaylistItem.item.clearProgressInterval();
+			const nextPlaylistItem = this.getChildByVideoId(currentPlaylistItem.index + 1) //this.childrenItems.filter(data => data.index === currentPlaylistItem.index + 1).shift()
+			if(nextPlaylistItem) {
+				this.state.player.cueVideoById(nextPlaylistItem.songId)
+			};
+		}
+		const playlist = {...this.state.playlist}
 		playlist.songs = playlist.songs.filter(song => song !== id);
-		console.log(id, playlist.songs);
 		this.setState({playlist});
 	}
 
@@ -122,9 +139,9 @@ class Playlist extends Component {
 				const hidden = index >= 3 && this.state.hiddenSongs && "hidden"
 				const hr = index < playlist.songs.length - 1 && <hr/>
 				return (
-					<div key={index} className={`playlist-item ${hidden}`}>
+					<div key={song} className={`playlist-item ${hidden}`}>
 						<PlaylistItem 
-								key={index} 
+								key={song} 
 								index={index}
 								song={song} 
 								isOwner={this.props.user && this.props.user.uid === user.uid}

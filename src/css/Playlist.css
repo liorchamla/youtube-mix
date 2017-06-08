@@ -28,3 +28,11 @@ img.rounded-circle {
 .playlist-item.hidden {
 	display: none;
 }
+
+.progress {
+	cursor: pointer;
+}
+
+.progress-container .progress {
+    height: 5px;
+}

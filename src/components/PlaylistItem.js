@@ -12,11 +12,12 @@ class PlaylistItem extends Component {
 			informations: {}
 		}
 
-		this.progressInterval = null;
-		this.progressValue = 0;
+		this.progressInterval = null
+		this.progressValue = 0
+		this.progressClicked = false
 
 		this.fetchSongInfos(props.song).then(richSong => {
-		  this.setState({informations: richSong});
+		  this.setState({informations: richSong})
 		});
 	}
 
@@ -47,7 +48,7 @@ class PlaylistItem extends Component {
 	    this.props.player.playVideo();
 	    this.setState({paused: false});
 	    if(!this.progressInterval){
-		    this.progressInterval = window.setInterval(this.handleTimeRate, 500);
+		    this.progressInterval = window.setInterval(this.handleTimeRate, 1000);
 	    }
 	}
 
@@ -89,11 +90,22 @@ class PlaylistItem extends Component {
 		}
 	}
 
+	handleProgressBarClick = (e, seekAhead) => {
+		if(this.progressClicked){
+			const rate = (e.nativeEvent.offsetX / e.currentTarget.offsetWidth)
+			this.props.player.getDuration().then(duration => {
+				this.progress.style.width = rate * 100 + '%'
+				this.progressTime.innerHTML = `${formatTime(rate * duration)} / ${formatTime(duration)}`
+				this.props.player.seekTo(Math.floor(duration * rate))
+			})
+		}
+	}
+
 	renderProgressBarHTML(){
 		return this.props.playing !== this.props.song ? '' : (
 			<div className="progress-container progress-info">
 			    <span className="progress-badge">Now playing</span>
-			    <div className="progress">
+			    <div className="progress" onMouseOut={(e) => this.progressClicked = false} onMouseDown={(e) => this.progressClicked = true} onMouseUp={(e) => this.progressClicked = false} onMouseMove={(e) => this.handleProgressBarClick(e, true)} >
 			        <div className="progress-bar" id={'progress-' + this.props.song} ref={(progress) => this.progress = progress} role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
 			            <span className="progress-value" ref={(span) => this.progressTime = span}></span>
 			        </div>
