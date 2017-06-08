@@ -70,14 +70,6 @@ class Main extends React.Component {
           <div className="wrapper">
             <Route exact path={`/`} render={() => <Home user={this.state.user} transparentNavigation={true} /> } />
             <Route exact path={`/playlists`} render={() => <Playlists user={this.state.user} />} />
-            <Route path='/playlists/:playlistId' render={() => <Playlist user={this.state.user} />} />
-            <Route exact path='/playlist/create' render={() => {
-              if(this.state.user && this.state.user.uid){
-                return <PlaylistForm user={this.state.user} />
-              } else {
-                return <Redirect to="/login" />
-              }
-            }} />
             <Route exact path='/login' render={() => <Login user={this.state.user} signIn={this.signInWithEmail} setUserState={this.setUserState} />} />
             <Route exact path='/signup' render={() => <Signup user={this.state.user} signUpWithEmail={this.signUpWithEmail} setUserState={this.setUserState} />} />
           </div>

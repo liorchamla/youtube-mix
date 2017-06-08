@@ -12,9 +12,6 @@ class PlaylistForm extends Component {
 		}
 	}
 
-	componentDidMount(){
-		document.querySelector('#navigation').classList.remove('navbar-transparent');
-	}
 
 	static contextTypes = {
 		router: PropTypes.object
