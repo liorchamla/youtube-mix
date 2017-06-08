@@ -59,7 +59,6 @@ class Playlists extends Component {
 
 	render(){
 		const items = this.state.playlists && Object.keys(this.state.playlists).map(key => {
-			const item = this.state.playlists[key]
 			return <Playlist user={this.props.user} data={this.state.playlists[key]} key={key} />
 		})
 		return (

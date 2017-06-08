@@ -77,20 +77,20 @@ class PlaylistItem extends Component {
 		this.clearProgressInterval();
 	}
 
-	render(){
-		const key = this.props.id;
-		let button;
+	renderPlayPauseButton(){
 		if(!this.state.paused && this.props.playing === this.props.song) {
-			button = <button className="btn btn-neutral" onClick={(e) => this.pause()}>
+			return <button className="btn btn-neutral" onClick={(e) => this.pause()}>
 				<i className="fa fa-pause"></i>
 			</button>;
 		} else {
-			button = <button className="btn btn-neutral" onClick={(e) => this.playSong()}>
+			return <button className="btn btn-neutral" onClick={(e) => this.playSong()}>
 				<i className="fa fa-play"></i>
 			</button>;
 		}
+	}
 
-		const progressBarHtml = this.props.playing !== this.props.song ? '' : (
+	renderProgressBarHTML(){
+		return this.props.playing !== this.props.song ? '' : (
 			<div className="progress-container progress-info">
 			    <span className="progress-badge">Now playing</span>
 			    <div className="progress">
@@ -100,6 +100,18 @@ class PlaylistItem extends Component {
 			    </div>
 			</div>
 		)
+	}
+
+	renderDeleteButton(){
+		return !this.props.isOwner ? '' : (
+			<button className="btn btn-neutral" onClick={(e) => this.props.removeSong(this.props.song)}>
+				<i className="fa fa-times"></i>
+			</button>
+		)
+	}
+
+	render(){
+		const key = this.props.id;
 
 		return (
 			<div key={key} className="row">
@@ -108,14 +120,12 @@ class PlaylistItem extends Component {
 				</div>
 				<div className="col-xs-9 col-md-8 song-title">
 					{this.state.informations.title && this.state.informations.title} 
-					{progressBarHtml}
+					{this.renderProgressBarHTML()}
 				</div>
 				<div className="col-xs-1 col-md-2">
-					{button}
+					{this.renderPlayPauseButton()}
 					<br />
-					<button className="btn btn-neutral" onClick={(e) => this.props.removeSong(this.props.song)}>
-						<i className="fa fa-times"></i>
-					</button>
+					{this.renderDeleteButton()}
 				</div>
 			</div>
 		)

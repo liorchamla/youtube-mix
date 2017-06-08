@@ -1,12 +1,10 @@
 import React from 'react'
 import { render } from 'react-dom'
-import { HashRouter, Route, Redirect } from 'react-router-dom'
+import { HashRouter, Route } from 'react-router-dom'
 import { base, firebase } from './helpers/base'
 import Home from './components/Home'
 import Playlists from './components/Playlists'
-import Playlist from './components/Playlist'
 import Navigation from './components/Navigation'
-import PlaylistForm from './components/PlaylistForm'
 import Login from './components/Login'
 import Signup from './components/Signup'
 

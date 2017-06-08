@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import PlaylistItem from './PlaylistItem'
 import SongForm from './SongForm'
 import YouTubePlayer  from 'youtube-player'
-import { base, firebase } from '../helpers/base'
+import { base } from '../helpers/base'
 
 import '../css/Playlist.css'
 
@@ -48,7 +48,7 @@ class Playlist extends Component {
 		this.setState({
 			player,
 			playlist: this.props.data,
-			hiddenSongs: this.props.data.songs.length > 3
+			hiddenSongs: this.props.data.songs && this.props.data.songs.length > 3
 		});
 		
 		this.ref = base.syncState(`/playlists/${this.props.data.slug}`, {
@@ -98,7 +98,9 @@ class Playlist extends Component {
 
 	removeSong = (id) => {
 		const playlist = this.state.playlist
+		console.log(id, playlist.songs);
 		playlist.songs = playlist.songs.filter(song => song !== id);
+		console.log(id, playlist.songs);
 		this.setState({playlist});
 	}
 
@@ -112,35 +114,43 @@ class Playlist extends Component {
 		this.setState({hiddenSongs: false})
 	}
 
+	renderSongs(){
+		const user = this.state.playlist.user
+		const playlist = this.state.playlist
+		if(playlist.songs){
+			return playlist.songs.map((song, index) => {
+				const hidden = index >= 3 && this.state.hiddenSongs && "hidden"
+				const hr = index < playlist.songs.length - 1 && <hr/>
+				return (
+					<div key={index} className={`playlist-item ${hidden}`}>
+						<PlaylistItem 
+								key={index} 
+								index={index}
+								song={song} 
+								isOwner={this.props.user && this.props.user.uid === user.uid}
+								player={this.state.player}
+								playing={this.state.playing}
+								registerPlaying={this.setPlayingInformations}
+								registerAsChild={this.registerChild}
+								removeSong={this.removeSong}
+							/>
+						{hr}
+					</div>
+				)
+			})
+		} else {
+			return (
+				<div className="text-center">
+					<h5>Add your first video to this playlist bro !</h5>
+					<hr/>
+				</div>
+			)
+		}
+	}
+
 	render(){
 		const user = this.state.playlist.user
 		const playlist = this.state.playlist
-		const songs = (playlist.songs && playlist.songs.map((song, index) => {
-			const hidden = index >= 3 && this.state.hiddenSongs && "hidden"
-			const hr = index < playlist.songs.length - 1 && <hr/>
-			return (
-				<div key={index} className={`playlist-item ${hidden}`}>
-					<PlaylistItem 
-							key={index} 
-							index={index}
-							song={song} 
-							player={this.state.player}
-							playing={this.state.playing}
-							registerPlaying={this.setPlayingInformations}
-							registerAsChild={this.registerChild}
-							removeSong={this.removeSong}
-						/>
-					{hr}
-				</div>
-			)
-		})) || (
-			<div className="text-center">
-				<h5>Add your first video to this playlist bro !</h5>
-				<hr/>
-			</div>
-		)
-
-
 		const addSong = this.props.user.uid && this.props.user.uid === user.uid && <SongForm addSong={this.addSong} />
 
 		return (
@@ -156,7 +166,7 @@ class Playlist extends Component {
 								&nbsp; {user.username}</small>
 							</div>
 							<div className="col-md-3">
-								<small>{playlist.songs.length} videos</small>
+								<small>{(playlist.songs && playlist.songs.length) || 0} videos</small>
 							</div>
 							<div className="col-md-4">
 								<small>
@@ -176,8 +186,8 @@ class Playlist extends Component {
 							<hr/>
 						</div>
 						<div id={`${playlist.slug}-songs`} className="songs">
-							{songs}
-							{this.state.hiddenSongs && (
+							{this.renderSongs()}
+							{this.state.hiddenSongs && playlist.songs && (
 								<div className="text-center">
 									<button className="btn btn-success btn-sm" onClick={() => this.toggleHidden()}>
 										<i className="fa fa-eye"></i> &nbsp; {playlist.songs.length - 3} more videos ... &nbsp;

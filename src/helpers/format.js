@@ -13,11 +13,11 @@ exports.formatDuration = (durationString) => {
 exports.formatTime = (seconds) => {
     var sec_num = parseInt(seconds, 10); // don't forget the second param
     var minutes = Math.floor(sec_num / 60);
-    var seconds = sec_num - (minutes * 60);
+    var secondes = sec_num - (minutes * 60);
 
     if (minutes < 10) {minutes = "0"+minutes;}
-    if (seconds < 10) {seconds = "0"+seconds;}
-    return minutes+':'+seconds;
+    if (secondes < 10) {secondes = "0"+secondes;}
+    return minutes+':'+secondes;
 }
 
 exports.getTimeRate = (player) => {

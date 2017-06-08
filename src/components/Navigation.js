@@ -46,7 +46,7 @@ class Navigation extends Component {
       return (
         <li className="nav-item dropdown">
             <a className="nav-link dropdown-toggle" href="#!" id="navbarDropdownMenuLink" data-toggle="dropdown">
-                  <img className="img-account" src={getGravatar(this.props.user.email)} />&nbsp; Account
+                  <img className="img-account" alt={this.props.user.username} src={getGravatar(this.props.user.email)} />&nbsp; Account
             </a>
             <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                 <a className="dropdown-item" href="#!" onClick={(e) => this.handleLogout(e)}>Log out</a>
