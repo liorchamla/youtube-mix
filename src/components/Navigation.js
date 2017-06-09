@@ -3,9 +3,16 @@ import PropTypes from 'prop-types'
 import PlaylistForm from './PlaylistForm'
 import { getGravatar } from '../helpers/format'
 
-
+/**
+ * ReactComponent Navigation
+ * Displaying the navbar on top of the website
+ */
 class Navigation extends Component {
 
+  /**
+   * We need a state here
+   * @param  {Object} props
+   */
   constructor(props){
     super(props)
 
@@ -14,25 +21,45 @@ class Navigation extends Component {
     }
   }
 
+  /**
+   * Surfacing the Router
+   * @type {Object}
+   */
+  static contextTypes = {
+    router: PropTypes.object
+  }
+
+  /**
+   * We need to set up easy access to the user
+   */
   componentWillMount(){
     const user = this.props.user
     this.setState({user})
   }
 
+  /**
+   * Handling routing to any asked page
+   * @param  {SyntheticEvent} event Any link click event
+   * @param  {String} path The path we want to route on
+   */
   goToPage(event, path){
     event.preventDefault()
     this.context.router.history.push(path)
   }
 
-  static contextTypes = {
-    router: PropTypes.object
-  }
-
+  /**
+   * Handling click on the logout button
+   * @param  {SyntheticEvent} e The click event
+   */
   handleLogout = (e) => {
     e.preventDefault();
     this.props.signOut(this.context.router)
   }
 
+  /**
+   * Rendering the loggin button with a different behavior if the user is logged in
+   * @return {JSX/HTML} The login/logout button
+   */
   renderLogin = () => {
     if(!this.props.isLoggedIn) {
       return (
@@ -56,7 +83,12 @@ class Navigation extends Component {
     }
   }
 
+  /**
+   * Rendering the top navbar
+   * @return {JSX/HTML} The navbar template
+   */
   render () {
+    // Rendering the Create Playlist button
     const createPlaylist = this.props.isLoggedIn ? (
       <li className="nav-item dropdown playlist-create">
           <a className="nav-link dropdown-toggle" href="#!" id="navbarDropdownMenuLink" data-toggle="dropdown">
