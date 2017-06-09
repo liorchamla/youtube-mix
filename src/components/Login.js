@@ -3,8 +3,16 @@ import PropTypes from 'prop-types'
 
 import background from '../img/header.jpg'
 
+/**
+ * ReactComponent Login
+ * Displays the login page
+ */
 class Login extends Component {
 
+	/**
+	 * We need to initialise state here
+	 * @param  {Object} props 
+	 */
 	constructor(props){
 		super(props)
 
@@ -13,43 +21,61 @@ class Login extends Component {
 		}
 	}
 
+	/**
+	 * Surfacing the Router
+	 * @type {Object}
+	 */
+	static contextTypes = {
+		router: PropTypes.object
+	}
+
+	/**
+	 * Taking care of the top navbar transparency
+	 */
 	componentDidMount(){
 		 document.querySelector('#navigation').classList.add('navbar-transparent');
 	}
 	
+	/**
+	 * Handling login form submission and query to firebase Auth
+	 * @param  {SyntheticEvent} e The submit event
+	 */
 	handleLogin = (e) => {
+		// Stoping the submit event
 		e.preventDefault()
+
+		// Retrieving form values
 		const userData = {
 			email: this.email.value,
 			password: this.password.value
 		}
 
+		// Asking Firebase Auth for authentication
 		this.props.signIn(userData)
+			// Storing user informations and go to the last visited page
 			.then((user) => {
 				this.props.setUserState(user)
 				this.context.router.history.goBack()
 			})
+			// Storing error message in order to display it
 			.catch(err => {
-				switch(err.code){
-					case 'auth/wrong-password':
-						this.setState({error: 'The submitted password is incorrect !'})
-						break;
-					default:
-						this.setState({error: err.message})
-						break;
-				}
+				this.setState({error: err.message})
 			})
 	}
 
-	  static contextTypes = {
-	    router: PropTypes.object
-	  }
-
+	/**
+	 * Handling Signup button routing
+	 * @param  {SyntheticEvent} e The click event
+	 */
 	goToSignup = (e) => {
 		e.preventDefault()
 		this.context.router.history.push('/signup')
 	}
 
+	/**
+	 * Rendering the login page
+	 * @return {JSX/HTML} The login page template
+	 */
 	render(){
 		const errorNotification = this.state.error && (
 			<div className="alert alert-danger" role="alert">
