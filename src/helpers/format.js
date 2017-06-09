@@ -11,13 +11,13 @@ exports.formatDuration = (durationString) => {
 }
 
 exports.formatTime = (seconds) => {
-    var sec_num = parseInt(seconds, 10); // don't forget the second param
-    var minutes = Math.floor(sec_num / 60);
-    var secondes = sec_num - (minutes * 60);
+  var sec_num = parseInt(seconds, 10) // don't forget the second param
+  var minutes = Math.floor(sec_num / 60)
+  var secondes = sec_num - (minutes * 60)
 
-    if (minutes < 10) {minutes = "0"+minutes;}
-    if (secondes < 10) {secondes = "0"+secondes;}
-    return minutes+':'+secondes;
+  if (minutes < 10) { minutes = '0' + minutes }
+  if (secondes < 10) { secondes = '0' + secondes }
+  return minutes + ':' + secondes
 }
 
 exports.getTimeRate = (player) => {
@@ -25,9 +25,9 @@ exports.getTimeRate = (player) => {
   const durationPromise = player.getDuration() || 0
   return Promise.all([timePromise, durationPromise]).then(([time, duration]) => {
   	return {rate: (time / duration) * 100, currentTime: time, duration}
-  }) 
+  })
 }
 
 exports.getGravatar = (email, size = 200) => {
-	return `https://www.gravatar.com/avatar/${md5(email)}?s=${size}`
+  return `https://www.gravatar.com/avatar/${md5(email)}?s=${size}`
 }

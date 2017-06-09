@@ -1,8 +1,7 @@
 import React, {Component} from 'react'
 
 class SongForm extends Component {
-  
-  constructor(props){
+  constructor (props) {
     super(props)
 
     this.state = {
@@ -14,7 +13,7 @@ class SongForm extends Component {
     event.preventDefault()
     const youtubeURL = this.songURL.value
     const regexp = /(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?/ ]{11})/i
-    if(regexp.test(youtubeURL)){
+    if (regexp.test(youtubeURL)) {
       const match = youtubeURL.match(regexp)
       const id		 = match[1]
       this.props.addSong(id)
@@ -25,32 +24,32 @@ class SongForm extends Component {
     }
   }
 
-  renderErrorNotification(){
+  renderErrorNotification () {
     return this.state.error && (
-        <div className="alert alert-warning">
-          <div className="container">
-            {this.state.error}
-          </div>
-        </div>
+    <div className='alert alert-warning'>
+      <div className='container'>
+        {this.state.error}
+      </div>
+    </div>
     )
   }
 
   render () {
     return (
       <form ref={(form) => this.songForm = form} onSubmit={(e) => this.addSong(e)}>
-        <hr/>
-        <div className="row">
-          <div className="col-8">
+        <hr />
+        <div className='row'>
+          <div className='col-8'>
             <div className='input-group form-group-no-border'>
-              <span className="input-group-addon">
-                <i className="fa fa-youtube"></i>
+              <span className='input-group-addon'>
+                <i className='fa fa-youtube' />
               </span>
               <input className='form-control' type='text' placeholder='Add a YouTube URL !' required ref={(input) => this.songURL = input} />
             </div>
           </div>
-          <div className="col-2">
+          <div className='col-2'>
             <button type='submit' className='btn btn-info'>
-				      <i className="fa fa-plus"></i>&nbsp; Add
+              <i className='fa fa-plus' />&nbsp; Add
 				    </button>
           </div>
         </div>

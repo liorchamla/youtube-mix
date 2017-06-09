@@ -12,5 +12,4 @@ const app = firebase.initializeApp({
 
 exports.base = Rebase.createClass(app.database())
 
-exports.firebase = firebase;
-
+exports.firebase = firebase
