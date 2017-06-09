@@ -57,12 +57,28 @@ class Playlists extends Component {
 		this.setState({showForm: false, playlists});
 	}
 
+	goToLogin = (e) => {
+		e.preventDefault();
+		this.context.router.history.push('/login');
+	}
+
 	render(){
 		const items = this.state.playlists && Object.keys(this.state.playlists).map(key => {
 			return <Playlist user={this.props.user} data={this.state.playlists[key]} key={key} />
 		})
+		const login = !this.props.user.uid && (
+			<div className="row" style={{paddingBottom: '30px'}}>
+				<div className="col-12 text-center">
+					<h2 className="title">Want to create your own playlist ?</h2>
+					<button className="btn btn-primary btn-lg" onClick={(e) => this.goToLogin(e)}>
+						<i className="fa fa-sign-in"></i> &nbsp;Login and try it !
+					</button>
+				</div>
+			</div>
+		)
 		return (
 			<div className="container page">
+				{login}		
 				<div className="row">
 					{items}		
 				</div>

@@ -49,7 +49,7 @@ class PlaylistItem extends Component {
 	    this.props.player.playVideo();
 	    this.setState({paused: false});
 	    if(!this.progressInterval){
-		    this.progressInterval = window.setInterval(this.handleTimeRate, 1000);
+		    this.progressInterval = window.setInterval(this.handleTimeRate, 500);
 	    }
 	}
 
