@@ -15,3 +15,18 @@ input, textarea, select, button {
 	max-width: 20rem;
 	padding-top: 20px;
 }
+
+@media screen and (max-width: 991px){
+	.playlist-form {
+		min-width: 90%;
+		max-width: 90%;
+	}
+
+	.playlist-form h5 {
+		color: #fff;
+	}
+
+	.playlist-form button {
+		margin-right: 10px;
+	}
+}

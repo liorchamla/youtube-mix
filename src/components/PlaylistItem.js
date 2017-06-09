@@ -128,14 +128,14 @@ class PlaylistItem extends Component {
 
 		return (
 			<div key={key} className="row">
-				<div className="col-xs-2 col-md-2">
+				<div className="col-2">
 					<img className="img-responsive img-raised" src={this.state.informations.thumbnail} alt={this.state.informations.title}/>
 				</div>
-				<div className="col-xs-9 col-md-8 song-title">
+				<div className="col-8 song-title">
 					{this.state.informations.title && this.state.informations.title} 
 					{this.renderProgressBarHTML()}
 				</div>
-				<div className="col-xs-1 col-md-2">
+				<div className="col-2">
 					{this.renderPlayPauseButton()}
 					<br />
 					{this.renderDeleteButton()}

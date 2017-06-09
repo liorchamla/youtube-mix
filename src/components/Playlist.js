@@ -178,14 +178,14 @@ class Playlist extends Component {
 							{playlist.title}
 						</h3>
 						<div className="row">
-							<div className="col-md-5">
+							<div className="col-5">
 								<small><img src={user.avatar} alt={user.username} className="rounded-circle"/>
 								&nbsp; {user.username}</small>
 							</div>
-							<div className="col-md-3">
+							<div className="col-3">
 								<small>{(playlist.songs && playlist.songs.length) || 0} videos</small>
 							</div>
-							<div className="col-md-4">
+							<div className="col-4">
 								<small>
 								<div className="checkbox">
 								    <input id={`${playlist.slug}-toggle-player`} type="checkbox" checked={this.state.showPlayer} onChange={(e) => this.togglePlayer(e)} ref={(input) => this.checkboxPlayer = input} />

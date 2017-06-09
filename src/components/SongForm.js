@@ -40,7 +40,7 @@ class SongForm extends Component {
       <form ref={(form) => this.songForm = form} onSubmit={(e) => this.addSong(e)}>
         <hr/>
         <div className="row">
-          <div className="col-md-8">
+          <div className="col-8">
             <div className='input-group form-group-no-border'>
               <span className="input-group-addon">
                 <i className="fa fa-youtube"></i>
@@ -48,7 +48,7 @@ class SongForm extends Component {
               <input className='form-control' type='text' placeholder='Add a YouTube URL !' required ref={(input) => this.songURL = input} />
             </div>
           </div>
-          <div className="col-md-2">
+          <div className="col-2">
             <button type='submit' className='btn btn-info'>
 				      <i className="fa fa-plus"></i>&nbsp; Add
 				    </button>
